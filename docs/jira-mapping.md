@@ -2,7 +2,7 @@
 
 Leave the project key as `NONE` to track tasks in TASKS.md instead.
 
-- Jira site: https://blazonedsales.atlassian.net
+- Jira site: https://<your-site>.atlassian.net
 - Project key: NONE
 - Issue type for tasks: Task (Bug for bugs)
 

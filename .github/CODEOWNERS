@@ -1,5 +1,5 @@
-# Guardrail files always need your review.
-*                     @odegay
-/.claude/             @odegay
-/CLAUDE.md            @odegay
-/.github/             @odegay
+# Replace with your GitHub username. Guardrail files always need your review.
+*                     @YOUR_GITHUB_USERNAME
+/.claude/             @YOUR_GITHUB_USERNAME
+/CLAUDE.md            @YOUR_GITHUB_USERNAME
+/.github/             @YOUR_GITHUB_USERNAME

@@ -29,6 +29,19 @@ scripts/                  cloud-setup.sh (cloud environment), protect-main.sh (r
 - `.claude/settings.local.json` for your extra permissions
 - `CLAUDE.local.md` for personal notes to the Coordinator
 
+## Start a new project from this template
+This repo is a generic bootstrap: it holds no project data. For each new project:
+1. Create a repo from it (GitHub "Use this template") and clone it.
+2. Fill in the per-project files: `CONTEXT.md`, `docs/jira-mapping.md` (or keep `NONE` to use `TASKS.md`),
+   and `.github/CODEOWNERS` (your GitHub username).
+3. Run once: `bash scripts/protect-main.sh <owner>/<repo>` and `pre-commit install`.
+4. Connect Jira (claude.ai Atlassian connector for cloud sessions, `/mcp` locally) and, for remote runs,
+   `/web-setup` + a cloud environment using `scripts/cloud-setup.sh`.
+5. Keep project repos private if CONTEXT.md, briefs or task notes contain real business context.
+
+Factory files (`CLAUDE.md`, `prompts/`, `.claude/`, `.github/workflows/`, `scripts/`) are shared:
+improve them here, then copy the changes into project repos.
+
 ## License
 MIT, see [LICENSE](LICENSE). You may use, modify and redistribute this factory, but every copy or
 substantial portion must keep the copyright notice crediting Oleg (https://github.com/odegay).
