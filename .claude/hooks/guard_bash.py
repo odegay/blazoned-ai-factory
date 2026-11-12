@@ -10,8 +10,9 @@ import sys
 
 RULES = [
     (r"\bgit\s+push\b.*(\s--force\b|\s-f\b|\s--force-with-lease\b)", "Force-push is not allowed."),
-    (r"\bgit\s+push\b.*\b(origin\s+)?(main|master)\b", "Pushing to main/master is not allowed. Push a feature/<KEY>-* branch and open a PR."),
-    (r"\bgit\s+push\b.*\bHEAD:(main|master)\b", "Pushing to main/master is not allowed."),
+    # main/master only as a whole refspec target: "origin main", "HEAD:main", "x:refs/heads/main", "+main".
+    # A branch name that merely contains the word (feature/BAF-4-main-page) is allowed.
+    (r"\bgit\s+push\b[^;&|]*?(?:\s|:|refs/heads/)\+?(main|master)(?=$|\s|[;&|])", "Pushing to main/master is not allowed. Push a feature/<KEY>-* branch and open a PR."),
     (r"--no-verify\b", "Bypassing git hooks (--no-verify) is not allowed."),
     (r"\bgh\s+pr\s+merge\b", "Merging PRs is reserved for the human reviewer."),
     (r"\bgh\s+api\b.*branches/.*/protection", "Changing branch protection is not allowed."),

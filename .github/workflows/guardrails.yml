@@ -33,4 +33,4 @@ jobs:
           pip install pytest
       - name: Test
         run: |
-          if ls tests/*.py >/dev/null 2>&1; then pytest -q; else echo "No tests yet"; fi
+          if [ -n "$(find tests -name 'test_*.py' -o -name '*_test.py' 2>/dev/null)" ]; then pytest -q; else echo "No tests yet"; fi
