@@ -8,6 +8,6 @@
 | `dev.md` | `.claude/agents/dev.md` |
 
 These are used unchanged. Factory mechanics (file paths, git/PR rules, how to return questions)
-live in `.claude/agents/*.md` and `CLAUDE.md`, so these files can stay generic across projects.
+live in `.claude/agents/*.md`, `CLAUDE.md` and `TEAM.md`, so these files can stay generic across projects.
 Leave the "Project context" sections empty; project context lives in `CONTEXT.md`.
 If a prompt here conflicts with the guardrails in CLAUDE.md, the guardrails win.

@@ -8,6 +8,7 @@ It runs locally or as Claude Code cloud sessions.
 ```
 CLAUDE.md                 shared, role-neutral rules (loaded by every agent) + imports CONTEXT.md
 CONTEXT.md                project context (Coordinator is the only writer)
+TEAM.md                   team rules + settings (brief check, code review, negotiation rounds), loaded by every agent
 TASKS.md                  task list when no Jira project is set
 prompts/                  YOUR role prompts, used unchanged (coordinator, po, sa, dev)
 .claude/agents/           subagent wrappers: tools, model, file paths, how to return questions
@@ -33,7 +34,7 @@ scripts/                  cloud-setup.sh (cloud environment), protect-main.sh (r
 This repo is a generic bootstrap: it holds no project data. For each new project:
 1. Create a repo from it (GitHub "Use this template") and clone it.
 2. Fill in the per-project files: `CONTEXT.md`, `docs/jira-mapping.md` (or keep `NONE` to use `TASKS.md`),
-   and `.github/CODEOWNERS` (your GitHub username).
+   and `.github/CODEOWNERS` (your GitHub username). Adjust the settings in `TEAM.md` if the defaults don't fit.
 3. Run once: `bash scripts/protect-main.sh <owner>/<repo>` and `pre-commit install`.
 4. Connect Jira (claude.ai Atlassian connector for cloud sessions, `/mcp` locally) and, for remote runs,
    `/web-setup` + a cloud environment using `scripts/cloud-setup.sh`.
