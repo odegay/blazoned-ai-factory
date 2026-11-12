@@ -5,6 +5,7 @@
 Layout: `src/` backend + UI, `tests/`, `docs/`, `.claude/` factory config.
 
 ## Where things are
+- Team rules and settings: TEAM.md
 - Product brief: docs/product-brief.md
 - Architecture note: docs/architecture.md
 - Tasks: <Jira project KEY (see docs/jira-mapping.md) | TASKS.md>
