@@ -9,7 +9,9 @@ Each project repo keeps its own copy of this file: change the settings there.
 ```yaml
 brief_check_by_architect: true   # true | false             sa checks each new or changed brief for cost and feasibility before the owner confirms scope
 code_review_by: architect        # architect | reviewer | none   who reviews each slice's PR before it goes to Owner review
-max_negotiation_rounds: 2        # send-backs allowed per loop before the Coordinator decides or escalates
+max_negotiation_rounds: 2        # objection send-backs per loop (brief check, slice review) before the Coordinator decides or escalates
+max_clarification_rounds: 3      # question-and-answer exchanges per loop before the Coordinator answers itself or escalates
+dev_readiness_check: ask-if-unclear  # off | ask-if-unclear | always-stop   how dev checks a slice before coding (see loop 3)
 ```
 
 The values shown are the defaults. If a setting is missing or has a value not listed, use the default and mention it in your report.
@@ -54,24 +56,43 @@ The Coordinator first answers from `CONTEXT.md` and the docs if it can. Otherwis
 
 ## Feedback loops
 
-A **round** is one send-back from the Coordinator to an agent within a loop. When a loop reaches
-`max_negotiation_rounds` without agreement, the Coordinator decides using the project priorities
-(cost, then speed of delivery, then simplicity) and records the decision in `CONTEXT.md`. If the decision
-belongs to the owner, the Coordinator escalates it with both positions stated fairly and a recommendation.
+Two kinds of round are counted separately, per loop:
+- A **negotiation round** is one send-back of objections or review findings. At `max_negotiation_rounds` without
+  agreement, the Coordinator decides using the project priorities (cost, then speed of delivery, then simplicity)
+  and records the decision in `CONTEXT.md`.
+- A **clarification round** is one question-and-answer exchange: an agent returns questions, the Coordinator gets
+  the answers and continues the same agent. At `max_clarification_rounds`, the Coordinator answers any remaining
+  question itself with the simplest reasonable assumption and records it under "Assumptions in force".
+
+Either way, if the decision or answer belongs to the owner, the Coordinator escalates it with both positions
+stated fairly and a recommendation, instead of deciding.
 
 1. **Brief check** (when `brief_check_by_architect: true`)
    `po` writes or changes the brief → `sa` checks cost and feasibility only, not product value →
    objections go back to `po`, who revises the scope or defends it with reasons → the owner confirms scope.
-2. **Design and scope clarification** (always)
-   A `dev` question or objection about design goes to `sa`, who answers and updates `docs/architecture.md`
-   if the design changes. A question about scope goes to `po`.
-3. **Slice review** (per PR, after `dev` reports the PR open with verification evidence; missing evidence is sent back first and is not a round)
+2. **Scope and design clarification** (`po` ↔ `sa`, either direction, always)
+   While designing, `sa` returns questions about scope or acceptance criteria, tagged `[po]`, instead of guessing
+   when the answer would change the design. `po` answers and updates `docs/product-brief.md` if scope changes;
+   questions only the owner can answer go to the owner. `sa` then continues the design with the answers.
+   In the same way, `po` can ask `sa` about feasibility or cost while writing the brief.
+3. **Readiness check and build questions** (`dev` ↔ `sa` / `po`, per `dev_readiness_check`)
+   Before coding, `dev` checks the slice against the brief and the architecture note: is the done-when testable,
+   is the design clear enough to build, does anything conflict, is any decision missing?
+   - `ask-if-unclear`: if anything open would change what gets built, `dev` stops and returns the questions;
+     otherwise it notes "ready" and builds in the same run.
+   - `always-stop`: `dev` always stops after the check and returns "ready" or its questions; the Coordinator then
+     continues the same `dev` run to build. Costs one extra exchange per slice.
+   - `off`: `dev` asks only when blocked.
+
+   Design questions go to `sa` (who updates `docs/architecture.md` if the design changes), scope questions to `po`.
+   Questions and objections that come up during the build follow the same route.
+4. **Slice review** (per PR, after `dev` reports the PR open with verification evidence; missing evidence is sent back first and is not a round)
    - `architect`: `sa` reviews the PR against `docs/architecture.md` and the task's done-when.
    - `reviewer`: a fresh `reviewer` run reviews the PR.
    - `none`: no review; the Coordinator checks the evidence and the PR checks only.
 
    The verdict is **approved** or **changes required**. Must-fix items go back to `dev` on the same branch and PR;
    `dev` fixes them or objects with reasons. Suggestions never block. Approved and checks passing → Owner review.
-4. **Owner decisions**
+5. **Owner decisions**
    Once the owner decides, everyone works with the decision. An agent that still disagrees records it as a risk;
    it does not reopen the decision.

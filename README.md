@@ -8,7 +8,7 @@ It runs locally or as Claude Code cloud sessions.
 ```
 CLAUDE.md                 shared, role-neutral rules (loaded by every agent) + imports CONTEXT.md
 CONTEXT.md                project context (Coordinator is the only writer)
-TEAM.md                   team rules + settings (brief check, code review, negotiation rounds), loaded by every agent
+TEAM.md                   team rules + settings (brief check, code review, readiness check, round limits), loaded by every agent
 TASKS.md                  task list when no Jira project is set
 prompts/                  YOUR role prompts, used unchanged (coordinator, po, sa, dev)
 .claude/agents/           subagent wrappers: tools, model, file paths, how to return questions
