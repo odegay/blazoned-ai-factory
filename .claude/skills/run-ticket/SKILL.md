@@ -18,11 +18,14 @@ and settings; this is the checklist.
    findings to respond to). Agents: `po`, `sa`, `dev`, `reviewer`. They reply in the TEAM.md report format.
 5. Read each report critically. Missing evidence → send back with reasons (this does not count as a round).
 6. Route every question and objection per "Where questions go" in TEAM.md, answering from `CONTEXT.md` and the
-   docs first. Send work back with the other side's points attached, count rounds, and stop at
-   `max_negotiation_rounds` (TEAM.md says what happens then).
+   docs first. Then continue the asking agent with the answers. Send work back with the other side's points
+   attached. Count negotiation and clarification rounds separately and stop at `max_negotiation_rounds` /
+   `max_clarification_rounds` (TEAM.md says what happens then).
 7. New or changed brief: run the brief check if `brief_check_by_architect` is true, then stop for the owner
    to confirm scope.
 8. New or changed build plan: build or update the backlog (see below).
+   Before each `dev` build, apply `dev_readiness_check` (TEAM.md loop 3): route its questions as in step 6, then
+   continue the same `dev` run to build.
 9. PR open with evidence: review per `code_review_by`; anything hard to undo also goes to `reviewer`.
    Changes required → back to `dev` on the same PR. Approved and checks pass → move the task to Owner review
    and comment the PR link and review verdict on the task.
