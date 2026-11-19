@@ -8,7 +8,7 @@ It runs locally or as Claude Code cloud sessions.
 ```
 CLAUDE.md                 shared, role-neutral rules (loaded by every agent) + imports CONTEXT.md
 CONTEXT.md                project context (Coordinator is the only writer)
-TEAM.md                   team rules + settings (brief check, code review, readiness check, round limits), loaded by every agent
+TEAM.md                   team rules + settings (brief check, code review, readiness check, round limits, model routing), loaded by every agent
 TASKS.md                  task list when no Jira project is set
 prompts/                  YOUR role prompts, used unchanged (coordinator, po, sa, dev)
 .claude/agents/           subagent wrappers: tools, model, file paths, how to return questions
@@ -51,6 +51,10 @@ improve them here, then copy the changes into project repos.
   The deny rules in `.claude/settings.json` still apply. Check in Git Bash: `python3 -c "print('ok')"`.
   If it doesn't print `ok`, change `python3` to `python` in the three hook commands in `.claude/settings.json`.
   Cloud sessions run on Linux and are not affected.
+- **Model routing.** The Coordinator picks a model per subagent call (see "Choosing a model" in `TEAM.md`).
+  Don't set `CLAUDE_CODE_SUBAGENT_MODEL` or `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`: in some Claude Code versions they
+  override every per-call choice. Some versions have also ignored the per-call model; the Coordinator records the
+  model on each task so you can spot it.
 - **Branch protection on private repos.** GitHub Free offers protected branches only on public repos, so on a
   private repo `scripts/protect-main.sh` fails. "Only the owner merges" is then enforced by the deny rules in
   `.claude/settings.json` and `.claude/hooks/guard_bash.py`, not by GitHub. Use GitHub Pro if you want both.

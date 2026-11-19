@@ -12,6 +12,10 @@ code_review_by: architect        # architect | reviewer | none   who reviews eac
 max_negotiation_rounds: 2        # objection send-backs per loop (brief check, slice review) before the Coordinator decides or escalates
 max_clarification_rounds: 3      # question-and-answer exchanges per loop before the Coordinator answers itself or escalates
 dev_readiness_check: ask-if-unclear  # off | ask-if-unclear | always-stop   how dev checks a slice before coding (see loop 3)
+model_routing: true              # true | false   false = every agent runs the model in its agent file
+model_default: sonnet            # routine work
+model_hard: opus                 # hard work (see "Choosing a model")
+model_light: haiku               # trivial work
 ```
 
 The values shown are the defaults. If a setting is missing or has a value not listed, use the default and mention it in your report.
@@ -20,6 +24,25 @@ Fixed by guardrails, not by settings:
 - Every change lands as a PR from `feature/<TASK-ID>-<slug>`, and only the owner merges
   (enforced by `.claude/settings.json`, `.claude/hooks/guard_bash.py` and branch protection).
 - Anything hard to undo (first deploy, data changes, release to users, security-relevant code) always also goes to `reviewer`, whatever `code_review_by` says.
+
+## Choosing a model
+
+The Coordinator runs on the session's model (pick it with `/model` or `claude --model …`).
+When `model_routing: true`, the Coordinator chooses a model each time it starts a subagent and passes it with the call;
+the `model:` line in the agent file is only the fallback. Use:
+
+- `model_hard` for: `sa` design of a new or changed architecture; slices the build plan marks `complexity: high`;
+  security-relevant code; a `dev` slice that already failed one review round; `reviewer` runs for anything hard to undo.
+- `model_light` for: trivial tasks with no logic change (docs, config values, copy, renames).
+- `model_default` for everything else: brief writing and checks, routine slices, code reviews, design questions.
+
+Rules:
+- When unsure between two levels, pick the cheaper one; move up only after it falls short (failed review, weak design).
+- A follow-up to the same agent keeps the model it started with. To change model, start a fresh run with the context it needs.
+- Record the model used on the task (Jira comment or the `TASKS.md` line), so cost stays visible.
+- Do not set `CLAUDE_CODE_SUBAGENT_MODEL` or `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`: in some Claude Code versions they
+  override every per-call choice. If an agent's transcript shows a different model than requested, say so in the owner report.
+- Model values are aliases the Agent tool accepts (`haiku`, `sonnet`, `opus`); aliases follow the latest version of each model.
 
 ## How the team communicates
 

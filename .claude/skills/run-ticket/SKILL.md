@@ -16,6 +16,7 @@ and settings; this is the checklist.
 4. Delegate with a full brief: objective (for `sa`, name the task: brief check, design, design question or
    code review), context paths, done means, boundaries, and inputs from others (answers, objections or review
    findings to respond to). Agents: `po`, `sa`, `dev`, `reviewer`. They reply in the TEAM.md report format.
+   Pick the model per "Choosing a model" in TEAM.md and pass it with the call; record it on the task.
 5. Read each report critically. Missing evidence → send back with reasons (this does not count as a round).
 6. Route every question and objection per "Where questions go" in TEAM.md, answering from `CONTEXT.md` and the
    docs first. Then continue the asking agent with the answers. Send work back with the other side's points
@@ -37,7 +38,7 @@ and settings; this is the checklist.
 
 ## Building the backlog from the build plan
 The build plan in `docs/architecture.md` is the source of order; the brief's PoC / MVP / Not now lists are the phases.
-- One task per slice, small enough for one `dev` run, with one role and done-when criteria.
+- One task per slice, small enough for one `dev` run, with one role, done-when criteria and the slice's complexity.
 - **Jira** (per `docs/jira-mapping.md`): use the issue type it names; group by phase (epic or label, as the
   mapping says); rank in build-plan order; add a "Blocks" link for each dependency; add the role label; put the
   done-when in the description with a link to the brief or architecture section. If the project turns out to have
