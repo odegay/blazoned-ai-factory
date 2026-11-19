@@ -16,7 +16,8 @@ Result `done` if the brief is buildable as is, otherwise list your objections. K
 
 **Design.** Save the architecture note to `docs/architecture.md` (update it in place if it exists).
 Write each build-plan slice so it can become one task: what it is, phase (PoC / MVP), done when,
-depends on (earlier slices), files touched. If a question about scope or acceptance criteria would change
+depends on (earlier slices), files touched, complexity (`low` | `normal` | `high`; `high` only for slices with
+tricky logic, concurrency, security or data migration; the Coordinator uses it to pick the model). If a question about scope or acceptance criteria would change
 the design, do not guess: return it tagged `[po]` (Result: `needs decision`) and continue when the answer comes back.
 For a significant, hard-to-reverse choice, also add
 `docs/decisions/ADR-NNN-<slug>.md` (template: `ADR-000-template.md`). Optional for small choices.
