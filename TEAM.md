@@ -1,6 +1,6 @@
 # Team rules and settings
 
-Loaded by every agent through `CLAUDE.md`. Defines how the Coordinator, `po`, `sa`, `dev` and `reviewer` work together.
+Loaded by every agent through `CLAUDE.md`. Defines how the Coordinator, `po`, `sa`, `ux`, `dev` and `reviewer` work together.
 Project facts live in `CONTEXT.md`; the Jira setup lives in `docs/jira-mapping.md`.
 Each project repo keeps its own copy of this file: change the settings there.
 
@@ -24,6 +24,7 @@ Fixed by guardrails, not by settings:
 - Every change lands as a PR from `feature/<TASK-ID>-<slug>`, and only the owner merges
   (enforced by `.claude/settings.json`, `.claude/hooks/guard_bash.py` and branch protection).
 - Anything hard to undo (first deploy, data changes, release to users, security-relevant code) always also goes to `reviewer`, whatever `code_review_by` says.
+- No UI is built before the owner approves its design (`docs/design/<TICKET>/approval.md`, see loop 6).
 
 ## Choosing a model
 
@@ -34,7 +35,8 @@ the `model:` line in the agent file is only the fallback. Use:
 - `model_hard` for: `sa` design of a new or changed architecture; slices the build plan marks `complexity: high`;
   security-relevant code; a `dev` slice that already failed one review round; `reviewer` runs for anything hard to undo.
 - `model_light` for: trivial tasks with no logic change (docs, config values, copy, renames).
-- `model_default` for everything else: brief writing and checks, routine slices, code reviews, design questions.
+- `model_default` for everything else: brief writing and checks, routine slices, code reviews, design questions,
+  all `ux` runs.
 
 Rules:
 - When unsure between two levels, pick the cheaper one; move up only after it falls short (failed review, weak design).
@@ -61,7 +63,7 @@ Result:          done | partly done | blocked | needs decision (one line)
 Files:           created or changed, with paths
 Verified:        how (commands run and their outcome), or "not verified" and why
 Assumptions:     what you treated as true without confirmation
-Questions:       each tagged [owner] [po] [sa] [dev]; blocking yes/no; what you will assume if unanswered
+Questions:       each tagged [owner] [po] [sa] [ux] [dev]; blocking yes/no; what you will assume if unanswered
 Objections:      disagreement with the brief, design or review: reason and alternative
 Context updates: proposed lines for CONTEXT.md
 ```
@@ -74,6 +76,7 @@ The Coordinator first answers from `CONTEXT.md` and the docs if it can. Otherwis
 |---|---|
 | What to build, scope, priority, acceptance criteria | `po` |
 | How to build: design, technology, component cost | `sa` |
+| How it looks and is used: screens, layout, copy fit, tokens | `ux` |
 | How the existing code works | `dev` |
 | Business facts, money, access, or anything under "When to involve the owner" in `prompts/coordinator.md` | owner, via the Coordinator |
 
@@ -107,6 +110,9 @@ stated fairly and a recommendation, instead of deciding.
      continues the same `dev` run to build. Costs one extra exchange per slice.
    - `off`: `dev` asks only when blocked.
 
+   **Definition of Ready (all settings):** a slice that changes UI is not ready, and is not started, until its task
+   links an approved design (`docs/design/<TICKET>/approval.md`). The design bootstrap slice (loop 6) comes first.
+
    Design questions go to `sa` (who updates `docs/architecture.md` if the design changes), scope questions to `po`.
    Questions and objections that come up during the build follow the same route.
 4. **Slice review** (per PR, after `dev` reports the PR open with verification evidence; missing evidence is sent back first and is not a round)
@@ -114,8 +120,20 @@ stated fairly and a recommendation, instead of deciding.
    - `reviewer`: a fresh `reviewer` run reviews the PR.
    - `none`: no review; the Coordinator checks the evidence and the PR checks only.
 
+   - UI slices, whoever reviews: `dev` attaches Playwright screenshots at 390px and 1280px as evidence; the
+     reviewer compares them side by side with the approved PNGs in `docs/design/<TICKET>/` (checklist judgment:
+     layout, content, tokens, states; not a pixel diff) and checks contrast and basic accessibility.
+
    The verdict is **approved** or **changes required**. Must-fix items go back to `dev` on the same branch and PR;
    `dev` fixes them or objects with reasons. Suggestions never block. Approved and checks passing → Owner review.
 5. **Owner decisions**
    Once the owner decides, everyone works with the decision. An agent that still disagrees records it as a risk;
    it does not reopen the decision.
+6. **Design** (any ticket that changes UI; details and Stitch rules in `docs/design/README.md`)
+   `po` writes the design ticket and marks UI tickets `needs design` → `ux` writes the brief and Stitch prompts →
+   the Coordinator runs them in Stitch (it alone holds `STITCH_API_KEY`) and saves the screenshots → `ux` reviews
+   them → the owner approves from screenshots + Stitch link (approval gate; the Coordinator writes `approval.md`)
+   → the Coordinator exports PNG + HTML, `ux` writes `DESIGN.md` → `sa` plans a design bootstrap slice (tokens as
+   CSS variables, base styles, a few base components) before the first feature UI → `dev` builds to match.
+   An approved `DESIGN.md` overrides the "generic UI, no custom design" defaults in `prompts/sa.md` and
+   `prompts/dev.md`, but only as far as the bootstrap. Stitch HTML is a reference, never shipped.
