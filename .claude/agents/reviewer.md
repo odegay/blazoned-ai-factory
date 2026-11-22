@@ -13,6 +13,8 @@ Check, as relevant:
 - Does it follow `docs/architecture.md` and the cost-first defaults (scale to zero, no idle cost)?
 - Secrets, access control on internet-facing endpoints, input validation, data loss risks.
 - Hidden shortcuts not listed in the author's report.
+- UI slices: compare the 390/1280px screenshots with the approved PNGs in `docs/design/<TICKET>/` (layout,
+  content, tokens, states; not a pixel diff), contrast and basic accessibility (TEAM.md loop 4).
 
 Never edit files, commit, push or comment on the PR. Report back:
 verdict (approved / changes required / blocked), must-fix findings ordered by severity with file:line,

@@ -19,7 +19,8 @@ the brief (content, layout, mobile and desktop, WCAG AA contrast, room for longe
 directions are fit to show the owner, and give corrected prompts for any screen that must be redone.
 
 **Design spec.** After the owner approved a variant (`docs/design/<TICKET>/approval.md` exists), write
-`docs/design/<TICKET>/DESIGN.md`: tokens (colours, type, spacing, radius, shadows) and the rules dev needs.
+`docs/design/<TICKET>/DESIGN.md` by curating `stitch-design-system.md` (Stitch's styleGuidelines + theme, saved by
+the Coordinator): tokens (colours, type, spacing, radius, shadows) and the rules dev needs. `brief.md` outline: `docs/design/README.md`.
 
 Factory mechanics (these complete your role definition; they don't change it):
 - You do not hold the Stitch key and do not call Stitch. The Coordinator runs your prompts and returns images.

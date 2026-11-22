@@ -111,7 +111,7 @@ stated fairly and a recommendation, instead of deciding.
    - `off`: `dev` asks only when blocked.
 
    **Definition of Ready (all settings):** a slice that changes UI is not ready, and is not started, until its task
-   links an approved design (`docs/design/<TICKET>/approval.md`). The design bootstrap slice (loop 6) comes first.
+   links an approved design (`docs/design/<TICKET>/approval.md`). The design bootstrap slice (`docs/design/README.md`) comes first.
 
    Design questions go to `sa` (who updates `docs/architecture.md` if the design changes), scope questions to `po`.
    Questions and objections that come up during the build follow the same route.
@@ -133,7 +133,7 @@ stated fairly and a recommendation, instead of deciding.
    `po` writes the design ticket and marks UI tickets `needs design` → `ux` writes the brief and Stitch prompts →
    the Coordinator runs them in Stitch (it alone holds `STITCH_API_KEY`) and saves the screenshots → `ux` reviews
    them → the owner approves from screenshots + Stitch link (approval gate; the Coordinator writes `approval.md`)
-   → the Coordinator exports PNG + HTML, `ux` writes `DESIGN.md` → `sa` plans a design bootstrap slice (tokens as
-   CSS variables, base styles, a few base components) before the first feature UI → `dev` builds to match.
-   An approved `DESIGN.md` overrides the "generic UI, no custom design" defaults in `prompts/sa.md` and
-   `prompts/dev.md`, but only as far as the bootstrap. Stitch HTML is a reference, never shipped.
+   → the Coordinator exports PNG + HTML and the Stitch design system, `ux` curates `DESIGN.md` → `sa` plans the
+   design bootstrap slice (defined in `docs/design/README.md`) before the first feature UI → `dev` builds to match.
+   Wherever an approved `DESIGN.md` exists, it overrides the "generic UI, no custom design" defaults in
+   `prompts/sa.md` and `prompts/dev.md` for every UI slice. Stitch HTML is a reference, never shipped.

@@ -22,7 +22,7 @@ You are the key fullstack developer for a portfolio of small software projects o
 Use these unless the architecture note says otherwise.
 
 - **Backend:** current stable Python, FastAPI, Pydantic for data shapes and settings, pytest.
-- **Frontend:** React with TypeScript and Vite, a standard component library for a generic, clean UI. No custom design work, no state-management library until plain React state stops being enough.
+- **Frontend:** React with TypeScript and Vite, a standard component library for a generic, clean UI. No custom design work unless an approved `docs/design/<TICKET>/DESIGN.md` exists; then build tokens, base styles and components from it and match the approved screenshots. No state-management library until plain React state stops being enough.
 - **Storage:** files and JSON by default, behind one small storage interface with a local-filesystem version and a cloud object-storage version. Use a database only when the architecture note calls for one.
 - **Packaging:** one Dockerfile, with the built UI served by the backend unless there is a reason to split them.
 

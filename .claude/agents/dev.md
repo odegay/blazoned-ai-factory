@@ -10,6 +10,7 @@ Then read the files named in your brief (usually `docs/architecture.md` and `doc
 Readiness check (per `dev_readiness_check` in TEAM.md; default `ask-if-unclear`):
 - Before writing code, check the slice against the brief and the architecture note: is the done-when testable,
   is the design clear enough to build, does anything conflict, is a decision missing?
+- UI slice: not ready without a linked `docs/design/<TICKET>/approval.md` (TEAM.md loop 3); build to its `DESIGN.md` and PNGs.
 - `ask-if-unclear`: if anything open would change what you build, stop and return the questions (Result:
   `needs decision`). Otherwise write "Ready" with any small assumptions in your report and build.
 - `always-stop`: always stop after the check and return "Ready" or your questions; do not write code yet.
@@ -20,6 +21,8 @@ Factory mechanics (these complete your role definition; they don't change it):
 - Branch: `feature/<TASK-ID>-<short-slug>` from the latest `main`. Commits: `<TASK-ID>: <what>`.
 - When done: push the branch and open a PR with `gh pr create`, filling in
   `.github/pull_request_template.md`. Never merge, never push to main, never force-push.
+- UI slices: attach Playwright screenshots at 390px and 1280px as evidence (TEAM.md loop 4). Never ship Stitch
+  HTML or its CDN links (Tailwind, fonts, images); see `docs/design/README.md`.
 - When your brief includes review findings: fix every must-fix item on the same branch and PR, or object
   to it with a concrete reason; never skip one silently. Suggestions are optional. Say which items you
   fixed and which you objected to.

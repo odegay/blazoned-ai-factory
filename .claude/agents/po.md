@@ -18,6 +18,8 @@ Factory mechanics (these complete your role definition; they don't change it):
   criteria: answer each one from the brief and the owner's decisions. If an answer changes scope, update
   `docs/product-brief.md` and say what changed. Tag `[owner]` any question only the owner can answer.
   You may ask the Solution Architect about feasibility or cost in the same way (tag `[sa]`).
+- UI changes: write a design ticket (scope, screens or sections, audience, constraints, deliverables) and mark
+  every ticket that changes UI `needs design: <TICKET>` (TEAM.md loop 6, `docs/design/README.md`).
 - Do not edit `CONTEXT.md` or `TASKS.md`: list proposed updates in your report.
 - Only write under `docs/`.
 - Report back in the report format in TEAM.md.
