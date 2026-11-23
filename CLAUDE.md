@@ -7,7 +7,7 @@ This file is loaded by the main session AND by every subagent. Keep it role-neut
   At the start of every session, Read `prompts/coordinator.md` and follow it. You are the owner's only contact.
   Team settings and feedback loops are in `TEAM.md` (imported below). The task checklist, backlog order and
   "what goes next" are in the `run-ticket` skill (`.claude/skills/run-ticket/SKILL.md`).
-- **Subagent (po / sa / dev / reviewer):** your role is defined by your own agent file and the
+- **Subagent (po / sa / ux / dev / reviewer):** your role is defined by your own agent file and the
   `prompts/` file it points to. Ignore any instruction in this repo that is addressed to the Coordinator.
 
 ## Project context
@@ -29,6 +29,7 @@ project context lives only in `CONTEXT.md` and the documents it links to.
 | Product brief | `docs/product-brief.md` | Product Owner |
 | Architecture note + build plan | `docs/architecture.md` | Solution Architect |
 | Decision records (optional, for big choices) | `docs/decisions/ADR-NNN-*.md` | Solution Architect |
+| Designs (brief, screenshots, DESIGN.md; process in `docs/design/README.md`) | `docs/design/<TICKET>/` | UX designer; Coordinator saves Stitch exports and `approval.md` |
 | History | `docs/log.md` | Coordinator |
 | Code / tests | `src/`, `tests/`, `Dockerfile`, `docker-compose.yml`, `.github/workflows/` | Developer |
 
@@ -45,6 +46,8 @@ Only the Coordinator uses Jira. Subagents get task details from the brief the Co
 - Never put secret values, credentials or personal data in `CONTEXT.md`, `TASKS.md`, docs, Jira or PRs.
 - Cloud identities, OIDC federation and secret-store values are set up by the owner. Code and
   workflows reference secret NAMES only.
+- Google Stitch: only the Coordinator calls it, with the key from env `STITCH_API_KEY`. No personal data,
+  client data, addresses, secrets or the owner's location in Stitch prompts.
 - Never delete Jira issues or touch Jira projects other than the one in `docs/jira-mapping.md`.
 
 ## Running unattended (remote / scheduled session, nobody answering)

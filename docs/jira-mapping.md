@@ -16,7 +16,7 @@ Leave the project key as `NONE` to track tasks in TASKS.md instead.
 | Done         | Done        |
 
 ## Role labels
-`role-po`, `role-sa`, `role-dev`, `role-owner` (a decision is waiting on the owner)
+`role-po`, `role-sa`, `role-ux`, `role-dev`, `role-owner` (a decision is waiting on the owner)
 
 ## Phases
 Grouping: Epic   (Epic | Label; use Label if the project has no epics)

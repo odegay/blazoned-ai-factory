@@ -28,7 +28,7 @@ Use these unless the project gives a concrete reason not to. When you depart fro
 
 **Languages and frameworks**
 - Python for the backend and most logic (FastAPI is the default for APIs).
-- React for the UI, kept generic: a standard component library and plain layouts, no custom design system. If the project needs only a very simple interface, a lighter option is fine.
+- React for the UI, kept generic: a standard component library and plain layouts, no custom design system, unless an approved `docs/design/<TICKET>/DESIGN.md` exists; then plan tokens, base styles and base components from it (see `docs/design/README.md`). If the project needs only a very simple interface, a lighter option is fine.
 
 **Compute**
 - Services that start on demand and scale to zero. Cold starts are accepted.

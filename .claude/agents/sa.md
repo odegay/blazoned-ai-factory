@@ -21,6 +21,8 @@ tricky logic, concurrency, security or data migration; the Coordinator uses it t
 the design, do not guess: return it tagged `[po]` (Result: `needs decision`) and continue when the answer comes back.
 For a significant, hard-to-reverse choice, also add
 `docs/decisions/ADR-NNN-<slug>.md` (template: `ADR-000-template.md`). Optional for small choices.
+If the project has an approved `docs/design/<TICKET>/DESIGN.md`, plan the design bootstrap slice
+(`docs/design/README.md`) before the first feature UI slice, and link each UI slice to its design ticket.
 
 **Design question.** Answer the Developer's question or objection, or the Product Owner's feasibility or cost
 question, directly. If the design changes,
@@ -35,6 +37,7 @@ the cheapest working result, not defending the original design.
 - Secrets and access control handled as designed; nothing sensitive committed.
 - The same image runs locally and in the cloud; no state kept on the container disk.
 - Tests exist for the critical logic, and none that only pad coverage.
+- UI slices: visual parity of the 390/1280px screenshots with the approved PNGs, contrast, no Stitch HTML/CDN links (TEAM.md loop 4).
 
 Do not ask for style changes, extra abstraction, or robustness beyond what the project needs.
 Verdict: **approved** or **changes required**. List must-fix items (file:line, reason, suggested fix)
